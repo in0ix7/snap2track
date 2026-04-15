@@ -49,4 +49,30 @@ public class AuthDto {
         private Role role;
         private String message;
     }
+
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class LoginRequest {
+        @NotBlank @Email
+        private String email;
+        @NotBlank
+        private String password;
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class LoginResponse {
+        private String token;
+        @Builder.Default
+        private String type = "Bearer";
+        private Long id;
+        private String email;
+        private String name;
+        private String role;
+    }
 }

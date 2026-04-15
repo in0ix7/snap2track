@@ -4,6 +4,7 @@ import com.fitcoach.snap2track.dto.MealDto;
 import com.fitcoach.snap2track.entity.FoodItem;
 import com.fitcoach.snap2track.entity.MealEntry;
 import com.fitcoach.snap2track.entity.User;
+import com.fitcoach.snap2track.exception.InvalidRoleException;
 import com.fitcoach.snap2track.exception.ResourceNotFoundException;
 import com.fitcoach.snap2track.repository.FoodItemRepository;
 import com.fitcoach.snap2track.repository.MealEntryRepository;
@@ -13,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +32,7 @@ public class MealService {
                 .orElseThrow(() -> new ResourceNotFoundException("Client", request.getClientId()));
 
         if (client.getRole() != User.Role.CLIENT) {
-            throw new IllegalArgumentException("User with id " + request.getClientId() + " is not a CLIENT");
+            throw new InvalidRoleException(request.getClientId(), "CLIENT");
         }
 
         MealEntry meal = MealEntry.builder()
@@ -90,6 +90,7 @@ public class MealService {
         return MealDto.MealResponse.builder()
                 .id(meal.getId())
                 .clientId(meal.getClient().getId())
+                .clientEmail(meal.getClient().getEmail())  // НОВАЯ СТРОКА
                 .clientName(meal.getClient().getName())
                 .mealType(meal.getMealType())
                 .eatenAt(meal.getEatenAt())

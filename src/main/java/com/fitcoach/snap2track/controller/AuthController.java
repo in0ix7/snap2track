@@ -20,4 +20,10 @@ public class AuthController {
         AuthDto.AuthResponse response = authService.register(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<AuthDto.LoginResponse> login(@Valid @RequestBody AuthDto.LoginRequest request) {
+        AuthDto.LoginResponse response = authService.login(request);
+        return ResponseEntity.ok(response);
+    }
 }

@@ -60,6 +60,7 @@ public class MealDto {
     public static class MealResponse {
         private Long id;
         private Long clientId;
+        private String clientEmail;  // НОВОЕ ПОЛЕ
         private String clientName;
         private MealEntry.MealType mealType;
         private LocalDateTime eatenAt;
